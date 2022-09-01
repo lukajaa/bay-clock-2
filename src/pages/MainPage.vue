@@ -78,7 +78,7 @@
 
   <q-dialog v-model="lunchModal">
     <q-card style="width: 900px; max-width: 80vw;">
-      <q-img src="https://www.bayclock.org/img/1.0eca1df3.jpg" />
+      <q-img src="https://www.bayclock.org/img/1.f34c488c.jpg" />
     </q-card>
   </q-dialog>
 
@@ -110,6 +110,7 @@
           <q-btn
             label="Sports/Activities Schedule"
             color="primary"
+            @click="activityModal = true"
             push
           />
           <div>
@@ -119,6 +120,56 @@
           </div>
         </q-form>
       </q-card-section>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog 
+    v-model="activityModal"
+  >
+    <q-card style="width: 900px; max-width: 80vw;">
+      <q-card-section>
+        <div class="row text-center q-ma-sm">
+          <div
+            v-for="day of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']"
+            :key="day"
+            class="col"
+          >
+            <h6>{{ day }}</h6>
+            <q-input filled v-model="time" mask="time" :rules="['time']">
+              <template v-slot:append>
+                <q-icon name="access_time" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-time v-model="time">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+            <p>to</p>
+            <q-input filled v-model="time" mask="time" :rules="['time']">
+              <template v-slot:append>
+                <q-icon name="access_time" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-time v-model="time">
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-time>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+          </div>
+        </div>
+      </q-card-section>
+      <div class="q-pa-lg">
+        <q-btn label="Save" @click="setStyles" color="primary"/>
+        <q-btn label="Reset" @click="resetStyles" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Cancel" @click="styleModal = false" color="negative" flat class="float-right" />
+      </div>
     </q-card>
   </q-dialog>
 
@@ -284,6 +335,7 @@ const scheduleModal = ref(false); // Custom schedule modal state
 const styleModal = ref(false); // Style modal state
 const styleTab = ref('colors'); // Style tab
 const styleSplitter = ref(10); // Style splitter
+const activityModal = ref(false); // Activity Modal State
 
 const colorPalette = ref({ // Basic color palette
   '#58a5dd': 'primary',
